@@ -1,7 +1,5 @@
 import { Router } from 'express';
-import { GoalController } from '../controllers/goal.controller';
-
-const goalController = new GoalController();
+import * as goalController from '../controllers/goal.controller';
 
 const router = Router();
 

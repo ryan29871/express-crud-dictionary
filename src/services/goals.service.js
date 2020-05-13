@@ -1,9 +1,10 @@
-export class GoalService {
-    /**
-     * In-Memory Store
-     */
 
-    goals = {
+/**
+ * In-Memory Store
+ */
+
+var GoalModel = {
+    goals: {
         1: {
             id: 1,
             title: 'Go to college',
@@ -22,66 +23,68 @@ export class GoalService {
             description: 'Apply for a job',
             complete: false
         },
-    };
-
-    /**
-     * Service Methods
-     */
-
-    async create(newGoal) {
+    },
+    create: async (newGoal) => {
         const id = new Date().valueOf();
-        this.goals[id] = {
-            ...newGoal,
-            id,
-        };
-    }
+        if ('title' in newGoal && 'description' in newGoal && 'complete' in newGoal) {
+            GoalModel.goals[id] = {
+                ...newGoal,
+                id,
+            };
+            return GoalModel.goals[id]; 
+        }
 
-    async findAll() {
-        return this.goals;
-    }
-
-    async findById(id) {
-        const record = this.goals[id];
+        throw new Error('Goal validation failed: `title, `complete` and `description` are required.');
+    },
+    findAll: async () => {
+        return GoalModel.goals;
+    },
+    findById: async (id) => {
+        const record = GoalModel.goals[id];
 
         if (record) {
             return record;
         }
 
-        throw new Error('No record found');
-    }
-
-    async findByIdAndDelete(id) {
-        const record = this.goals[id];
+        return null;
+        // throw new Error('No record found');
+    },
+    findByIdAndDelete: async (id) => {
+        const record = GoalModel.goals[id];
 
         if (record) {
-            delete this.goals[id];
+            delete GoalModel.goals[id];
             return record;
         }
 
-        throw new Error('No record found to delete');
-    }
-
-    async findByIdAndUpdate(id, body) {
-        if (this.goals[id]) {
-            this.goals[id].complete = body.complete;
-            return this.goals[id];
+        return null;
+        // throw new Error('No record found to delete');
+    },
+    findByIdAndUpdate: async (id, body) => {
+        if (GoalModel.goals[id]) {
+            GoalModel.goals[id].complete = body.complete;
+            return GoalModel.goals[id];
         }
 
-        throw new Error('No record found to update');
-    }
-
-    async findByIdAndReplace(id, body) {
-        if (this.goals[id]) {
+        return null;
+        // throw new Error('No record found to update');
+    },
+    findByIdAndReplace: async (id, body) => {
+        if (GoalModel.goals[id]) {
             let newGoal = {
                 id: id,
                 title: body.title,
                 description: body.description,
                 complete: body.complete
             }
-            this.goals[id] = newGoal;
-            return newGoal;
+            GoalModel.goals[id] = newGoal;
+            return GoalModel.goals[id];
         }
 
-        throw new Error('No record found to update');
+        return null;
+        // throw new Error('No record found to update');
     }
+
 }
+
+export default GoalModel;

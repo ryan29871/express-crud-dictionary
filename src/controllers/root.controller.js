@@ -1,5 +1,3 @@
-export class RootController {
-	getRoot = (req, res, next) => {
-		res.status(200).json({ data: 'Welcome to my CRUD app!'})
-	}
+export function getRoot(req, res, next) {
+	res.status(200).json({ data: 'Welcome to my CRUD app!' })
 }

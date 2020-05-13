@@ -21,6 +21,6 @@ app.use((error, req, res, next) => {
   res.status(500).json({ message: error.message });
 });
 
-app.listen(process.env.PORT, () => {
+module.exports = app.listen(process.env.PORT, () => {
   console.log(`Server is now running on port ${process.env.PORT} in ${process.env.NODE_ENV} mode!`);
 });
